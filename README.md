@@ -24,3 +24,18 @@ Orden
 6. controladores
 7. servicios
 8. rutas
+
+
+
+
+crear completamente la ruta types,protegerla
+prorteger la ruta categories el delete y el post con el middlaware de role 
+recuerda que tienes autenticacion tipo usuario y tipo  rol
+
+
+
+ingtredients instruction util-seedear
+types 
+
+<!-- comando para correr un test en mocha -->
+npx mocha .\test\example.test.js
