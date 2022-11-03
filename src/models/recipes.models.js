@@ -25,7 +25,7 @@ const Recipes = db.define('recipes', {
     urlImg : {
         type: DataTypes.STRING,
         validate: {
-            isUrl: true
+            // isUrl: true // solo se comenta para poder aplicar seeder y llenar todas las tablas con los valores de prueba
         },
         field: 'url_img'
     },

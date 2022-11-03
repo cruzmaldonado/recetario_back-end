@@ -1,8 +1,48 @@
 const uuid = require('uuid')
+const {Op} = require('sequelize')
+
 const Recipes = require('../models/recipes.models')
+const Users = require('../models/users.models')
+const Categories = require('../models/categories.models')
+const Instructions = require('../models/instructions.models')
+const RecipeIngredients = require('../models/recipes_ingredients.models')
+const Ingredients = require('../models/ingredients.models')
+const Types = require('../models/types.models')
+const UsersIngredients = require('../models/users_ingredients.models')
+
+
 
 const getAllRecipes = async () => {
-    const data = await Recipes.findAll()
+    const data = await Recipes.findAll({
+        // !include permite hacer tablas con relacines ya establecidas
+        attributes: {
+            exclude: ['userId', 'categoryId', 'createdAt', 'updatedAt']
+        },
+
+        include :[
+            {
+                model:Categories
+            },
+            {
+                model:Users,
+                attributes:["id","firstName","lastName"],
+            },
+            {
+                model:Instructions,
+                attributes:["step","description"]
+            },  
+            {
+             model:RecipeIngredients,
+             attributes:["id","amount"],
+             include:{
+                model:Ingredients,
+                include:{
+                    model:Types
+                }
+             }
+            }
+        ]
+    })
     return data
 }
 
@@ -10,8 +50,37 @@ const getRecipeById = async (id) => {
     const data = await Recipes.findOne({
         where: {
             id
+        },
+        
+            attributes: {
+                exclude: ['userId', 'categoryId', 'createdAt', 'updatedAt']
+            },
+    
+            include :[
+                {
+                    model:Categories
+                },
+                {
+                    model:Users,
+                    attributes:["id","firstName","lastName"],
+                },
+                {
+                    model:Instructions,
+                    attributes:["step","description"]
+                },  
+                {
+                 model:RecipeIngredients,
+                 attributes:["id","amount"],
+                 include:{
+                    model:Ingredients,
+                    include:{
+                        model:Types
+                    }
+                 }
+                }
+            ]
         }
-    })
+    )
     return data
 }
 
@@ -49,6 +118,18 @@ const deleteRecipe = async (id) => {
     return data
 }
 
+const getMyRecipes =async(userId)=>{
+    const userIngredients= await userIngredients.findAll({
+        attributes:["ingredientId"],
+        where:{
+            userId
+        }
+        
+    })
+    const data =await RecipeIngredients.findAll({
+    })
+}
+
 module.exports = {
     getAllRecipes,
     getRecipeById,
@@ -57,3 +138,11 @@ module.exports = {
     deleteRecipe
 }
 
+
+
+
+
+// recipesController
+// recipesServices
+// serviceRouter
+// app

@@ -34,8 +34,8 @@ recuerda que tienes autenticacion tipo usuario y tipo  rol
 
 
 
-ingtredients instruction util-seedear
-types 
+Los seeders no tienen contraseñas encriptadas ,
+acomodar
 
 <!-- comando para correr un test en mocha -->
 npx mocha .\test\example.test.js

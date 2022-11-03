@@ -30,5 +30,9 @@ router.route('/:ingredient_id')
         adminMiddleware,
         ingredientServices.deleteIngredient
     )
+    router.post('/:ingredient_id/add_to_user', 
+    passport.authenticate('jwt', {session: false})
+)
+
 
 module.exports = router
