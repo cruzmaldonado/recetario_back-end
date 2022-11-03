@@ -118,24 +118,41 @@ const deleteRecipe = async (id) => {
     return data
 }
 
-const getMyRecipes =async(userId)=>{
-    const userIngredients= await userIngredients.findAll({
-        attributes:["ingredientId"],
-        where:{
+const getMyRecipes = async(userId) => {
+    const userIngredients = await UsersIngredients.findAll({
+        attributes: ['ingredientId'],
+        where: {
             userId
         }
-        
     })
-    const data =await RecipeIngredients.findAll({
+    const filteredIngredients = userIngredients.map(obj => obj.ingredientId)
+    const recipeIngredients = await RecipeIngredients.findAll({
+        where: {
+            ingredientId: {
+                [Op.in]: filteredIngredients
+            }
+        }
     })
-}
 
+    const filteredRecipes = recipeIngredients.map(obj => obj.recipeId)
+
+    const data = await Recipes.findAll({
+        where: {
+            id: {
+                [Op.in]: filteredRecipes
+            }
+        }
+    })
+
+    return data
+}
 module.exports = {
     getAllRecipes,
     getRecipeById,
     createRecipe,
     updateRecipe,
-    deleteRecipe
+    deleteRecipe,
+    getMyRecipes
 }
 
 
