@@ -125,7 +125,14 @@ const getMyRecipes = async(userId) => {
             userId
         }
     })
+    // ! filteredIngredients permite tener un arrglo de string
     const filteredIngredients = userIngredients.map(obj => obj.ingredientId)
+
+
+    // ? Op.in filtra las recetas que tiene todos los ingredientes que tiene el arregleo de string filteredIngredients
+
+    // ![op.in]    Model querying basic 
+    // !  son operadores logicos con logica de sequelize
     const recipeIngredients = await RecipeIngredients.findAll({
         where: {
             ingredientId: {
@@ -152,6 +159,7 @@ module.exports = {
     createRecipe,
     updateRecipe,
     deleteRecipe,
+    getMyRecipes,
     getMyRecipes
 }
 
