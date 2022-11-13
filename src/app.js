@@ -2,11 +2,14 @@
 const express = require('express');
 const db = require('./utils/database')
 const Cors = require ("cors")
-// const swaggerUi= require("swagger-ui-express")
+const swaggerUi= require("swagger-ui-express")
+const swaggerJsDoc=require("swagger-jsdoc")
 
 //? Files
 const {port} = require('./config');
-// const swaggerDoc =require("../swagger.json")
+const swaggerDoc=require("../swagger.json")
+
+
 
 //* Routes
 const userRouter = require('./users/users.router')
@@ -52,7 +55,10 @@ app.get('/',(req, res) => {
     })
 })
 
-// app.use("/api/docs",swaggerUi.serve,swaggerUi.serve(swaggerDoc))
+// *Rutas Raiz
+// Ruta para documentacion swagger
+app.use("/api/v1/docs",swaggerUi.serve,swaggerUi.setup(swaggerDoc))
+// -----//  
 app.use('/api/v1/users', userRouter)
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/categories', categoryRouter)
@@ -63,7 +69,9 @@ app.use("/api/v1/ingredients",ingredientRouter)
 
 
 
+
 app.listen(port, () => {
-    console.log(`Server started at port ${port}`)
+    console.log(`Server started at port ${port}`);
+    
 })
 

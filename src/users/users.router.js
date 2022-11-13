@@ -3,26 +3,26 @@ const passport = require('passport')
 const adminValidate = require('../middlewares/role.middleware')
 const userServices = require('./users.services')
 const {getUserRecipes}=require("../recipes/recipes.services")
-
 require('../middlewares/auth.middleware')(passport)
-
-
+        
 //? rutas raiz
 
-router.get('/', userServices.getAllUsers)
+ router.get("/",userServices.getAllUsers);
+
 
 //TODO el registerUser ira en la ruta /auth/register
 
 //! router.route('/').get( userServices.getAllUsers)
 
 //? rutas dinamicas por ID /users/:id
-
+    
 //! router.get('/:id')
 //! router.patch('/:id')
 //! router.put('/:id')
 //! router.delete('/:id')
 
 //? Ruta de informacion propia del usuario loggeado
+//? /api/v1/users/me
 router.route('/me')
     .get(
         passport.authenticate('jwt', {session: false}),
@@ -59,6 +59,7 @@ router.get('/me/my_recipes',
         passport.authenticate('jwt', {session: false}),
         getUserRecipes
 )
+
 
 
 module.exports = router
