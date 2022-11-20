@@ -22,11 +22,7 @@ const login = (req, res) => {
                         token
                     })
                 } else {
-                    res.status(401).json({message: 'Invalid Credentials,all fields must be completed',
-                    fields:{
-                        email:"example@gmail.com",
-                        password:"ThisIsaExamplePassword"
-                    }
+                    res.status(401).json({message: 'Invalid Credentials'
                 })
                 }
             })
@@ -35,7 +31,11 @@ const login = (req, res) => {
 
             })
     } else {
-        res.status(400).json({message: 'Missing Data'})
+        res.status(400).json({message: ',all fields must be completed',
+        fields:{
+            email:"example@gmail.com",
+            password:"ThisIsaExamplePassword"
+        }})
     }
 }
 
