@@ -22,7 +22,12 @@ const login = (req, res) => {
                         token
                     })
                 } else {
-                    res.status(401).json({message: 'Invalid Credentials'})
+                    res.status(401).json({message: 'Invalid Credentials,all fields must be completed',
+                    fields:{
+                        email:"example@gmail.com",
+                        password:"ThisIsaExamplePassword"
+                    }
+                })
                 }
             })
             .catch(error => {

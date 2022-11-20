@@ -6,7 +6,7 @@
     "title": "recetario sequelize",
     "termsOfService": "http://swagger.io/terms/",
     "contact": {
-    "email": "andressmaldonado1@gmail.com"
+    "email": "cruzmaldonadocharris@gmail.com.com"
     },
     "license": {
     "name": "Apache 2.0",
@@ -132,7 +132,71 @@
     "/auth/register":{
     "post":{
     "tags":["auth"],
-    "summary":"register new user"
+    "summary":"register a new user",
+    "description":"",
+    "operationId":"createUser",
+    "consumes":["multipart/form-data"],
+    "produces":["application/json"],
+    "parameters":[
+    {
+    "name":"firstName",
+    "in":"formData",
+    "description":"first username",
+    "required":true,
+    "type":"string"
+    },
+    {
+    "name":"lastName",
+    "in":"formData",
+    "description":"last username",
+    "required":true,
+    "type":"string"
+    },
+    {
+    "name":"email",
+    "in":"formData",
+    "description":"example@example.com",
+    "required":true,
+    "type":"string"
+    },
+    {
+    "name":"password",
+    "in":"formData",
+    "description":"password",
+    "required":true,
+    "type":"string"
+    },
+    {
+    "name":"phone",
+    "in":"formData",
+    "description":"+521231231231",
+    "required":true,
+    "type":"string"},
+    {
+    "name":"birthday",
+    "in":"formData",
+    "description":"YYYY/MM/DD",
+    "required":true,
+    "type":"string"}  
+    ],
+    "responses":{
+    "201":{
+    "description":"user created",
+    "schema":{
+    "$ref":"#/definitions/Users"
+    }
+    },
+    "400":{
+    "description":"{err.mesage} or 'All field must be completed'",
+    "schema":{
+    "$ref":"#/definitions/400CreateUsers"
+    }
+    }
+    },
+    "security":[
+    {
+    }
+    ]
     }
     },
     "/auth/login":{
@@ -1071,176 +1135,278 @@
     }
     },
     "definitions": {
-    "ApiResponse": {
-    "type": "object",
-    "properties": {
-    "code": {
-    "type": "integer",
-    "format": "int32"
+    "Users":{
+    "type":"object",
+    "properties":{
+    "id":{
+    "type":"string",
+    "format":"uuid"
     },
-    "type": {
+    "firstName":{
     "type": "string"
     },
-    "message": {
+    "lastName":{
     "type": "string"
-    }
-    }
     },
-    "Category": {
-    "type": "object",
-    "properties": {
-    "id": {
-    "type": "integer",
-    "format": "int64"
-    },
-    "name": {
-    "type": "string"
-    }
-    },
-    "xml": {
-    "name": "Category"
-    }
-    },
-    "Pet": {
-    "type": "object",
-    "required": [
-    "name",
-    "photoUrls"
-    ],
-    "properties": {
-    "id": {
-    "type": "integer",
-    "format": "int64"
-    },
-    "category": {
-    "$ref": "#/definitions/Category"
-    },
-    "name": {
+    "email":{
     "type": "string",
-    "example": "doggie"
+    "format":"email"
     },
-    "photoUrls": {
-    "type": "array",
-    "xml": {
-    "wrapped": true
-    },
-    "items": {
+    "password":{
     "type": "string",
-    "xml": {
-    "name": "photoUrl"
-    }
-    }
+    "format":"password"
     },
-    "tags": {
-    "type": "array",
-    "xml": {
-    "wrapped": true
+    "phone":{
+    "type": "string"
     },
-    "items": {
-    "xml": {
-    "name": "tag"
-    },
-    "$ref": "#/definitions/Tag"
-    }
-    },
-    "status": {
+    "birhday":{
     "type": "string",
-    "description": "pet status in the store",
-    "enum": [
-    "available",
-    "pending",
-    "sold"
-    ]
-    }
+    "default":"YYYY/MM/DD"
     },
-    "xml": {
-    "name": "Pet"
-    }
-    },
-    "Tag": {
-    "type": "object",
-    "properties": {
-    "id": {
-    "type": "integer",
-    "format": "int64"
-    },
-    "name": {
+    "gender":{
     "type": "string"
-    }
     },
-    "xml": {
-    "name": "Tag"
-    }
+    "role":{
+    "type": "string"
     },
-    "Order": {
-    "type": "object",
-    "properties": {
-    "id": {
-    "type": "integer",
-    "format": "int64"
+    "country":{
+    "type": "string"
     },
-    "petId": {
-    "type": "integer",
-    "format": "int64"
-    },
-    "quantity": {
-    "type": "integer",
-    "format": "int32"
-    },
-    "shipDate": {
+    "status":{
     "type": "string",
-    "format": "date-time"
+    "default":"active",
+    "description":"whether or not the user is active"
     },
-    "status": {
+    "isVerified":{
+    "type":"boolean",
+    "default":"false",
+    "description":"user verification"
+    }
+    },
+    "xml":{
+    "name":"Users"
+    }
+    },
+    "recipes":{
+    "type":"object",
+    "properties":{
+    "id":{
+    "type":"string",
+    "format":"uuid"
+    },
+    "title":{
+    "type":"string"
+    },
+    "description":{
+    "type":"string"
+    },
+    "url_img":{
+    "type":"string"
+    },
+    "time":{
+    "type":"integer",
+    "format":"int64",
+    "description":"quantity in minutes that the recipe takes"
+    },
+    "portions":{
+    "type":"integer",
+    "format":"int64"
+    },
+    "user_id":{
+    "type":"string",
+    "format":"uuid"
+    },
+    "category_id":{
+    "type":"string",
+    "format":"uuid"
+    },
+    "origin":{
+    "type":"string",
+    "description":"country of origin"
+    },
+    "likes":{
+    "type":"integer",
+    "format":"int64"
+    }
+    },
+    "xml":{
+    "name":"recipes"
+    }
+    },
+    "instructions":{
+    "type":"object",
+    "properties":{
+    "id":{
+    "type":"string",
+    "format":"uuid"
+    },
+    "description":{
+    "type":"string"
+    },
+    "step":{
+    "type":"integer",
+    "format":"int64"
+    },
+    "recipe_id":{
+    "type":"string",
+    "format":"uuid"
+    }
+    },
+    "xml":{
+    "name":"instructions"
+    }
+    },
+    "ingredients":{
+    "type":"object",
+    "properties":{
+    "id":{
+    "type":"string",
+    "format":"uuid"
+    },
+    "name":{
+    "type":"string"
+    },
+    "type_id":{
+    "type":"string",
+    "format":"uuid"
+    },
+    "url_img":{
+    "type":"string"
+    }
+    },
+    "xml":{
+    "name":"ingredients"
+    }
+    },
+    "types":{
+    "type":"object",
+    "properties":{
+    "id":{
+    "type":"string",
+    "format":"uuid"
+    },
+    "name":{
+    "type":"string"
+    }
+    },
+    "xml":{
+    "name":"types"
+    }
+    },
+    "categories":{
+    "type":"object",
+    "properties":{
+    "id":{
+    "type":"string",
+    "format":"uuid"
+    },
+    "name":{
+    "type":"string"
+    }
+
+    },
+    "xml":{
+    "name":"categories"
+    }
+    },
+    "users_ingredients":{
+    "type":"object",
+    "properties":{
+    "id":{
+    "type":"string",
+    "format":"uuid"
+    },
+    "amount":{
+    "type":"string"
+    
+    },
+    "user_id":{
+    "type":"string",
+    "format":"uuid"
+    },
+    "ingredient_id":{
+    "type":"string",
+    "format":"uuid"
+    }
+    },
+    "xml":{
+    "name":"users_ingredients"
+    }
+    },
+    "recipes_ingredients":{
+    "type":"object",
+    "properties":{
+    "id":{
+    "type":"string",
+    "format":"uuid"
+    },
+    "amount":{
+    "type":"string"
+    },
+    "recipe_id":{
+    "type":"string",
+    "format":"uuid"
+    },
+    "ingredient_id":{
+    "type":"string",
+    "format":"uuid"
+    }
+    },
+    "xml":{
+    "name":"recipes_ingredients"
+    }
+    },
+    "users_recipes":{
+    "type":"object",
+    "properties":{
+    "id":{
+    "type":"string",
+    "format":"uuid"
+    },
+    "favorite":{
+    "type":"boolean",
+    "description":"If the recipe is one of the customer's favorites."
+    },
+    "user_id":{
+    "type":"string",
+    "format":"uuid"
+    },
+    "recipe_id":{
+    "type":"string",
+    "format":"uuid"
+    }
+    },
+    "xml":{
+    "name":"users_recipes"
+    }
+    },
+    "400CreateUsers":{
+    "type":"object",
+    "properties":{
+    "firstName":{
+    "type": "string"
+    },
+    "lastName":{
+    "type": "string"
+    },
+    "email":{
     "type": "string",
-    "description": "Order Status",
-    "enum": [
-    "placed",
-    "approved",
-    "delivered"
-    ]
+    "format":"email"
     },
-    "complete": {
-    "type": "boolean"
+    "password":{
+    "type": "string",
+    "format":"password"
+    },
+    "phone":{
+    "type": "string"
+    },
+    "birhday":{
+    "type": "string",
+    "default":"YYYY/MM/DD"
     }
     },
-    "xml": {
-    "name": "Order"
-    }
-    },
-    "User": {
-    "type": "object",
-    "properties": {
-    "id": {
-    "type": "integer",
-    "format": "int64"
-    },
-    "username": {
-    "type": "string"
-    },
-    "firstName": {
-    "type": "string"
-    },
-    "lastName": {
-    "type": "string"
-    },
-    "email": {
-    "type": "string"
-    },
-    "password": {
-    "type": "string"
-    },
-    "phone": {
-    "type": "string"
-    },
-    "userStatus": {
-    "type": "integer",
-    "format": "int32",
-    "description": "User Status"
-    }
-    },
-    "xml": {
-    "name": "User"
+    "xml":{
+    "name":"400CreateUsers"
     }
     }
     },
