@@ -8,7 +8,7 @@ const db = new Sequelize({
     password: config.db.password, //? Variable de entorno de la contraseña
     database: config.db.dbName, //? Variable de entorno de la base de datos
 
-
+    
 
     //* estos es para hacer la conexion con un DB de producciion
     dialectOptions: 
