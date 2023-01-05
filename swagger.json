@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-    "description": "This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.",
+    "description": "Complete recipe project where you can: 1) create users, 2) add recipes, 3) filter recipes with the ingredients available to the user, there is also swagger-type documentation, testing, etc. This project is deployed with the following url https://cruz-recipes.onrender.com",
     "version": "1.0.0",
     "title": "recetario sequelize",
     "termsOfService": "http://swagger.io/terms/",
